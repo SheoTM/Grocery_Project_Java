@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <title th:text="${actionUrl=='/products'} ? 'Nowy produkt' : 'Edytuj produkt'">Form</title>
+</head>
+<body class="container py-4">
+
+<h1 th:text="${actionUrl=='/products'} ? 'Dodaj produkt' : 'Edytuj produkt'">Form</h1>
+
+<form th:action="@{${actionUrl}}"
+      th:object="${product}"
+      method="post"
+      class="row g-3">
+
+  <div class="col-md-6">
+    <label class="form-label">Nazwa</label>
+    <input class="form-control" th:field="*{name}" required>
+  </div>
+
+  <div class="col-md-3">
+    <label class="form-label">Cena (zł)</label>
+    <input class="form-control" type="number" step="0.01"
+           th:field="*{price}" required>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary"
+            th:text="${actionUrl=='/products'} ? 'Zapisz' : 'Aktualizuj'">OK</button>
+    <a class="btn btn-secondary" th:href="@{/products}">Anuluj</a>
+  </div>
+</form>
+
+</body>
+</html>
