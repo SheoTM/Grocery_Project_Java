@@ -1,8 +1,10 @@
+
 package org.example.grocery_project.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.grocery_project.model.Product;
 import org.example.grocery_project.repository.ProductRepository;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +17,17 @@ public class ProductController {
     private final ProductRepository repo;
 
     @GetMapping
-    public String list(Model m) {
-        m.addAttribute("products", repo.findAll());
+    public String list(@RequestParam(defaultValue = "") String q,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "name") String sort,
+                       Model m) {
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(sort));
+        Page<Product> result = repo.findByNameContainingIgnoreCase(q, pageable);
+
+        m.addAttribute("products", result);
+        m.addAttribute("q", q);
+        m.addAttribute("sort", sort);
         return "products";
     }
 
