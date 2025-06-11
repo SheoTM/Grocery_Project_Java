@@ -10,8 +10,22 @@
 
 <h1>Produkty</h1>
 
+<div class="mb-3">
+  <a class="btn btn-outline-dark btn-sm" th:href="@{/products(sort='asc')}">Sortuj A–Z</a>
+  <a class="btn btn-outline-dark btn-sm" th:href="@{/products(sort='desc')}">Sortuj Z–A</a>
+  <span class="ms-3">Filtruj kategorię:</span>
+  <a class="btn btn-outline-secondary btn-sm" th:href="@{/products(category='pieczywo')}">Pieczywo</a>
+  <a class="btn btn-outline-secondary btn-sm" th:href="@{/products(category='mieso')}">Mięso</a>
+  <a class="btn btn-outline-secondary btn-sm" th:href="@{/products(category='nabial')}">Nabiał</a>
+  <a class="btn btn-outline-secondary btn-sm" th:href="@{/products(category='napoje')}">Napoje</a>
+  <a class="btn btn-outline-secondary btn-sm" th:href="@{/products(category='inne')}">Inne</a>
+
+</div>
+
+<!-- Dodawanie nowego produktu -->
 <a class="btn btn-success mb-3" th:href="@{/products/new}">➕ Nowy produkt</a>
 
+<!-- Tabela produktów -->
 <table class="table table-striped">
   <thead>
   <tr><th>Nazwa</th><th>Cena</th><th>Akcje</th><th></th></tr>
@@ -21,6 +35,7 @@
     <td th:text="${p.name}">Milk</td>
     <td th:text="${#numbers.formatDecimal(p.price,1,2)} + ' zł'">0,00 zł</td>
 
+    <!-- Edytuj / Usuń -->
     <td>
       <a class="btn btn-sm btn-outline-primary"
          th:href="@{/products/{id}/edit(id=${p.id})}">Edytuj</a>
@@ -31,6 +46,7 @@
       </form>
     </td>
 
+    <!-- Dodaj do koszyka -->
     <td>
       <form th:action="@{/cart/add/{id}(id=${p.id})}" method="post" class="d-flex">
         <input type="number" name="qty" value="1" min="1"

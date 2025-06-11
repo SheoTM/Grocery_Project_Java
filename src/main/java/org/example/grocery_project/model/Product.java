@@ -1,14 +1,9 @@
 package org.example.grocery_project.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.math.BigDecimal;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Product {
 
     @Id
@@ -16,7 +11,18 @@ public class Product {
     private Long id;
 
     private String name;
-
-    @Column(precision = 10, scale = 2)
     private BigDecimal price;
+    private String category; // NOWOŚĆ
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 }

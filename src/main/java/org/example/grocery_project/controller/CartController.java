@@ -4,43 +4,63 @@ import lombok.RequiredArgsConstructor;
 import org.example.grocery_project.model.CartItem;
 import org.example.grocery_project.service.CartService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cart")
-@SessionAttributes("cart")
 @RequiredArgsConstructor
+@RequestMapping("/cart")
+@SessionAttributes("cart") // Store the cart in session between requests
 public class CartController {
 
     private final CartService cartService;
 
+    // Create a new cart when session starts
     @ModelAttribute("cart")
-    List<CartItem> cart() { return new ArrayList<>(); }
-
-    @PostMapping("/add/{id}")
-    public String add(@PathVariable Long id,
-                      @RequestParam int qty,
-                      @ModelAttribute("cart") List<CartItem> cart) {
-        cartService.add(id, qty, cart);
-        return "redirect:/cart";
+    public List<CartItem> cart() {
+        return new java.util.ArrayList<>();
     }
 
+    // Add a product to the cart or increase quantity if it already exists
+    @PostMapping("/add/{id}")
+    public String addToCart(@PathVariable Long id,
+                            @RequestParam(defaultValue = "1") int qty,
+                            @ModelAttribute("cart") List<CartItem> cart) {
+        cartService.add(id, qty, cart);
+        return "redirect:/products";
+    }
+
+    // Display the cart and total price
     @GetMapping
-    public String show(@ModelAttribute("cart") List<CartItem> cart, Model m) {
-        m.addAttribute("total", cartService.total(cart));
+    public String showCart(@ModelAttribute("cart") List<CartItem> cart,
+                           org.springframework.ui.Model model) {
+        model.addAttribute("total", cartService.total(cart));
         return "cart";
     }
 
+    // Clear the cart
     @PostMapping("/checkout")
-    public String checkout(SessionStatus status, RedirectAttributes flash) {
+    public String checkout(SessionStatus status) {
         cartService.clear(status);
-        flash.addFlashAttribute("msg", "Zamówienie przyjęte!");
         return "redirect:/products";
+    }
+
+    // Update quantity of a specific item in the cart
+    @PostMapping("/update/{id}")
+    public String updateQty(@PathVariable Long id,
+                            @RequestParam int qty,
+                            @ModelAttribute("cart") List<CartItem> cart) {
+        cartService.updateCartItemQuantity(id, qty, cart);
+        return "redirect:/cart";
+    }
+
+    // Remove an item from the cart
+    @PostMapping("/remove/{id}")
+    public String removeItem(@PathVariable Long id,
+                             @ModelAttribute("cart") List<CartItem> cart) {
+        cartService.removeCartItem(id, cart);
+        return "redirect:/cart";
     }
 }

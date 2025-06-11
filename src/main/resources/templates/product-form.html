@@ -20,6 +20,18 @@
     <input class="form-control" th:field="*{name}" required>
   </div>
 
+  <div class="col-md-6">
+    <label class="form-label">Kategoria</label>
+    <select class="form-select" th:field="*{category}" required>
+      <option value="">-- Wybierz kategorię --</option>
+      <option value="pieczywo">Pieczywo</option>
+      <option value="mieso">Mięso</option>
+      <option value="nabial">Nabiał</option>
+      <option value="napoje">Napoje</option>
+      <option value="inne">Inne</option>
+    </select>
+  </div>
+
   <div class="col-md-3">
     <label class="form-label">Cena (zł)</label>
     <input class="form-control" type="number" step="0.01"
