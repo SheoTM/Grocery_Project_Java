@@ -16,14 +16,14 @@ public class CartService {
 
     private final ProductRepository productRepo;
 
-    public boolean add(Long productId, int qty, List<CartItem> cart) {
+    public boolean add(Long productId, int quantity, List<CartItem> cart) {
         return productRepo.findById(productId).map(prod -> {
             cart.stream()
                     .filter(ci -> ci.getProduct().getId().equals(prod.getId()))
                     .findFirst()
                     .ifPresentOrElse(
-                            ci -> ci.setQty(ci.getQty() + qty),
-                            () -> cart.add(new CartItem(prod, qty))
+                                ci -> ci.setQuantity(ci.getQuantity() + quantity),
+                                () -> cart.add(new CartItem(prod, quantity))
                     );
             return true;
         }).orElse(false);
@@ -44,7 +44,7 @@ public class CartService {
                 .filter(ci -> ci.getProduct().getId().equals(productId))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Item not found in cart"));
-        item.setQty(quantity);
+        item.setQuantity(quantity);
     }
 
     public void removeCartItem(Long productId, List<CartItem> cart) {

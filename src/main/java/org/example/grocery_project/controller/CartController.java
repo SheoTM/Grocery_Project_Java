@@ -12,23 +12,23 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/cart")
-@SessionAttributes("cart") // Store the cart in session between requests
+@SessionAttributes("cart")
 public class CartController {
 
     private final CartService cartService;
 
-    // Create a new cart when session starts
+    // Create a new cart
     @ModelAttribute("cart")
     public List<CartItem> cart() {
         return new java.util.ArrayList<>();
     }
 
-    // Add a product to the cart or increase quantity if it already exists
+    // Add a product to the cart or increase quantity
     @PostMapping("/add/{id}")
     public String addToCart(@PathVariable Long id,
-                            @RequestParam(defaultValue = "1") int qty,
+                            @RequestParam(defaultValue = "1") int quantity,
                             @ModelAttribute("cart") List<CartItem> cart) {
-        cartService.add(id, qty, cart);
+        cartService.add(id, quantity, cart);
         return "redirect:/products";
     }
 
@@ -47,16 +47,16 @@ public class CartController {
         return "redirect:/products";
     }
 
-    // Update quantity of a specific item in the cart
+    // Update quantity
     @PostMapping("/update/{id}")
-    public String updateQty(@PathVariable Long id,
-                            @RequestParam int qty,
+    public String updateQuantity(@PathVariable Long id,
+                            @RequestParam int quantity,
                             @ModelAttribute("cart") List<CartItem> cart) {
-        cartService.updateCartItemQuantity(id, qty, cart);
+        cartService.updateCartItemQuantity(id, quantity, cart);
         return "redirect:/cart";
     }
 
-    // Remove an item from the cart
+    // Remove item from cart
     @PostMapping("/remove/{id}")
     public String removeItem(@PathVariable Long id,
                              @ModelAttribute("cart") List<CartItem> cart) {

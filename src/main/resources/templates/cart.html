@@ -26,7 +26,7 @@
 
     <td>
       <form th:action="@{/cart/update/{id}(id=${ci.product.id})}" method="post" class="d-flex">
-        <input type="number" name="qty" th:value="${ci.qty}" min="1"
+        <input type="number" name="quantity" th:value="${ci.quantity}" min="1"
                class="form-control form-control-sm me-1" style="width:70px;">
         <button class="btn btn-sm btn-outline-primary">Zmień</button>
       </form>
@@ -53,7 +53,7 @@
 </table>
 
 <form th:action="@{/cart/checkout}" method="post">
-  <button class="btn btn-primary">Zamów i wyczyść koszyk</button>
+  <button class="btn btn-primary">Zamów</button>
   <a class="btn btn-secondary" th:href="@{/products}">Kontynuuj zakupy</a>
 </form>
 

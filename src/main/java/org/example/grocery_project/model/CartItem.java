@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 public class CartItem {
 
     private Product product;
-    private int     qty;
+    private int quantity;
 
     public BigDecimal lineTotal() {
-        return product.getPrice().multiply(BigDecimal.valueOf(qty));
+        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 }

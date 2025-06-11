@@ -12,7 +12,7 @@ public class Product {
 
     private String name;
     private BigDecimal price;
-    private String category; // NOWOŚĆ
+    private String category;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
